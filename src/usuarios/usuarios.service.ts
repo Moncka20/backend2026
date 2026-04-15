@@ -1,10 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from './entities/usuario.entity';
-import { Not, Repository } from 'typeorm';
-import { RoleEntity } from 'src/modules/rol/entities/role.entitity';
+import * as bcrypt from 'bcryptjs';
 import { RoleEnum } from 'src/common/enums/role.enum';
-import bcrypt from 'node_modules/bcryptjs';
+import { UserEntity } from './entities/usuario.entity';
+import { CreateUsuarioDto } from './dto/create-usuario.dto';
+import { RoleEntity } from 'src/rol/entities/role.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class UsuariosService {
@@ -31,6 +32,19 @@ export class UsuariosService {
         if (!user) {
             throw new NotFoundException(`Usuario con id ${id} no encontrado`);
         }
+        return user;
+    }
+
+    async create(createUsuarioDto: CreateUsuarioDto): Promise<UserEntity> {
+        const passwordHash = await bcrypt.hash(createUsuarioDto.password, 10);
+
+        const user = await this.createUser({
+            username: createUsuarioDto.username,
+            email: createUsuarioDto.email,
+            passwordHash,
+            roleName: createUsuarioDto.roleName ?? RoleEnum.USER,
+        });
+
         return user;
     }
 

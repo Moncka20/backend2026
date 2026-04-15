@@ -21,9 +21,11 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('API Backend2026')
-    .setDescription('Documentación Swagger para estudiantes (productos, categorías, inventario)')
+    .setDescription('Documentación Swagger para estudiantes (productos, categorías, inventario, usuarios y auth)')
     .setVersion('1.0')
     .addTag('productos')
+    .addTag('usuarios')
+    .addTag('auth')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

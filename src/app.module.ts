@@ -14,7 +14,7 @@ import { UsuarioModule } from './modules/usuario/usuario.module';
 import { RolModule } from './modules/rol/rol.module';
 import { AuthModule } from './auth/auth.module';
 import { UserEntity } from './usuarios/entities/usuario.entity';
-import { RoleEntity } from './modules/rol/entities/role.entitity';
+import { RoleEntity } from './rol/entities/role.entity';
 
 @Module({
   imports: [

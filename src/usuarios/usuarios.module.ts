@@ -5,7 +5,7 @@ import { Type } from 'class-transformer';
 import { UserEntity } from './entities/usuario.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from 'src/auth/auth.module';
-import { RoleEntity } from 'src/modules/rol/entities/role.entitity';
+import { RoleEntity } from 'src/rol/entities/role.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity, RoleEntity]),

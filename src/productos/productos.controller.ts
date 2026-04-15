@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, ParseIntPipe, Post, Query } from '@nestjs/common';
-import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { ProductosService } from './productos.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { ProductoFullResponseDto } from './dto/producto-full.dto';
@@ -35,6 +35,10 @@ export class ProductosController {
         return await this.productosService.findProductosConCategoriaEInventarioRefactor();
     }
 
+    @ApiOperation({ summary: 'Listar productos con paginación' })
+    @ApiQuery({ name: 'page', required: false, type: Number, example: 1 })
+    @ApiQuery({ name: 'limit', required: false, type: Number, example: 10 })
+    @ApiOkResponse({ type: [Object] })
     @Get('pagination')
     async findWhitPagination(
         @Query('page') page: string = '1',
@@ -43,6 +47,9 @@ export class ProductosController {
         return await this.productosService.findWhitPagination(+page, +limit);
     }
 
+    @ApiOperation({ summary: 'Buscar productos por nombre' })
+    @ApiQuery({ name: 'name', required: true, type: String, example: 'guitarra' })
+    @ApiOkResponse({ type: [Object] })
     @Get('search')
     async searchByName(@Query('name') name: string) {
         return await this.productosService.searchByName(name);

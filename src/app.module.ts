@@ -9,9 +9,7 @@ import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
 import { CategoriaModule } from './categoria/categoria.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ProductoEntity } from './productos/entities/producto.entity';
-import { UsuarioModule } from './modules/usuario/usuario.module';
-import { RolModule } from './modules/rol/rol.module';
+import { ProductoEntity } from './productos/Entities/producto.entity';
 import { AuthModule } from './auth/auth.module';
 import { UserEntity } from './usuarios/entities/usuario.entity';
 import { RoleEntity } from './rol/entities/role.entity';
@@ -28,8 +26,6 @@ import { RoleEntity } from './rol/entities/role.entity';
     InventarioModule, 
     DatabaseModule, 
     CategoriaModule, 
-    UsuarioModule, 
-    RolModule, 
     AuthModule],
   controllers: [AppController],
   providers: [AppService, ProductosService],

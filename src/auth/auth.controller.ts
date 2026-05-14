@@ -2,6 +2,7 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from './dto/login.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -19,7 +20,20 @@ export class AuthController {
   })
   @Post('register')
   async register(@Body() dto: RegisterDto) {
-    console.log(dto);
     return this.authService.register(dto);
+  }
+
+  @ApiOperation({ summary: 'Iniciar sesión con email y password' })
+  @ApiCreatedResponse({
+    description: 'Login correcto, devuelve JWT',
+    schema: {
+      example: {
+        access_token: '<JWT_TOKEN>',
+      },
+    },
+  })
+  @Post('login')
+  async login(@Body() dto: LoginDto) {
+    return this.authService.login(dto);
   }
 }

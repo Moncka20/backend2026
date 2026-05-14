@@ -1,10 +1,11 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsuariosService } from 'src/usuarios/usuarios.service';
 import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { RoleEnum } from 'src/common/enums/role.enum';
-import { access } from 'fs';
+import { JwtPayload } from './interfaces/jwt-payload.interface';
 
 @Injectable()
 export class AuthService {
@@ -25,14 +26,31 @@ export class AuthService {
                 roleName: RoleEnum.USER
             }
         )
-        const payload =
-        {
+        const payload: JwtPayload = {
             sub: user.id,
             username: user.username,
             role: user.role.name
         };
         return {
             access_token: this.jwtService.sign(payload)
+        }
+    }
+
+    async login(dto: LoginDto) {
+        try {
+            const user = await this.usuariosService.validateCredentials(dto.email, dto.password);
+
+            const payload: JwtPayload = {
+                sub: user.id,
+                username: user.username,
+                role: user.role.name,
+            };
+
+            return {
+                access_token: this.jwtService.sign(payload),
+            };
+        } catch {
+            throw new UnauthorizedException('Credenciales inválidas');
         }
     }
 }
